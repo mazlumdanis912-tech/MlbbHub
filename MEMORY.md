@@ -1,0 +1,3 @@
+- [MLBB Hub auth guard pattern](mlbb-hub-auth.md) — Auth guard must be in both (tabs) and (auth) layouts for bidirectional protection.
+- [MLBB Hub theme system](mlbb-hub-themes.md) — useColors() now dynamic via ThemeContext; never import static colors directly.
+- [MLBB Hub AI Chatbot](mlbb-hub-chatbot.md) — Rate limiting, prompt injection isolation, answerTo feedback pairing, model gpt-4o-mini.

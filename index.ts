@@ -1,28 +1,20 @@
-import { createServer } from "http";
-import app from "./app.js";
-import { setupSocket } from "./socket.js";
-import { logger } from "./lib/logger.js";
+import { Router, type IRouter } from "express";
+import healthRouter from "./health.js";
+import authRouter from "./auth.js";
+import friendsRouter from "./friends.js";
+import highlightsRouter from "./highlights.js";
+import messagesRouter from "./messages.js";
+import socialRouter from "./social.js";
+import chatbotRouter from "./chatbot.js";
 
-const rawPort = process.env["PORT"];
+const router: IRouter = Router();
 
-if (!rawPort) {
-  throw new Error("PORT environment variable is required but was not provided.");
-}
+router.use(healthRouter);
+router.use(authRouter);
+router.use(friendsRouter);
+router.use(highlightsRouter);
+router.use(messagesRouter);
+router.use(socialRouter);
+router.use(chatbotRouter);
 
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-const httpServer = createServer(app);
-const io = setupSocket(httpServer);
-
-httpServer.listen(port, () => {
-  const domain = process.env["REPLIT_DEV_DOMAIN"] ?? `localhost:${port}`;
-  logger.info({ port, url: `https://${domain}` }, "🚀 MLBB Hub API Server başlatıldı");
-  logger.info("Socket.io hazır — gerçek zamanlı mesajlaşma aktif");
-  logger.info("Endpoints: /api/register  /api/login  /api/addFriend  /api/friends/:id  /api/highlight  /api/highlights  /api/messages/:id  /api/healthz");
-});
-
-export { io };
+export default router;
